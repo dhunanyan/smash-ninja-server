@@ -1,21 +1,27 @@
+from typing import List, Tuple, Dict
+
 # GLOBAL
-SCREEN_WIDTH = 640
-SCREEN_HEIGHT = 480
-SCREEN_SCALE = 2
-FPS = 60
-BASE_IMG_PATH = 'assets/images/'
+SCREEN_WIDTH: int = 640
+SCREEN_HEIGHT: int = 480
+SCREEN_SCALE: int = 2
+FPS: int = 60
+BASE_IMG_PATH: str = 'assets/images/'
 
 BACKGROUND_SHADOWS_LIST = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
 # TILEMAP
-NEIGHBOR_OFFSET = [(-1, 0), (-1, -1), (0, -1), 
-                   (1, 0), (0, 0), (0, 1),
-                   (-1, 1), (1, 1), (1, -1)]
+NEIGHBOR_OFFSET: List[Tuple[int]] = [
+  (-1, 0), (-1, -1), (0, -1),
+  (1, 0), (0, 0), (0, 1),
+  (-1, 1), (1, 1), (1, -1)
+]
 PHYSICS_TILE_TYPES = {"grass", "stone"}
 
-AUTOTILE_NEIGHBORS = [(1, 0), (-1, 0), (0, -1), (0, 1)]
-AUTOTILE_TYPES = {"grass", "stone"}
-AUTOTILE_MAP = {
+AUTOTILE_NEIGHBORS: List[Tuple[int]] = [
+  (1, 0), (-1, 0), (0, -1), (0, 1)
+]
+AUTOTILE_TYPES: set[str] = {"grass", "stone"}
+AUTOTILE_MAP: Dict[Tuple[int, int], int] = {
   tuple(sorted([(1, 0), (0, 1)])): 0,
   tuple(sorted([(1, 0), (0, 1), (-1, 0)])): 1,
   tuple(sorted([(-1, 0), (0, 1)])): 2,

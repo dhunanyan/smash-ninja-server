@@ -2,6 +2,8 @@ import sys
 import random
 import pygame
 
+from components.tilemap import Tilemap
+
 from config.constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_SCALE, BACKGROUND_SHADOWS_LIST, FPS
 from config.utils import Animation, load_image, load_images
 
@@ -25,6 +27,8 @@ class Game:
     
     self.clock = pygame.time.Clock()
     self.movement = [False, False]
+    
+    self.tilemap = Tilemap(self, tile_size=16)
     
     self.assets = {
       "icon": load_image('icon.png'),
