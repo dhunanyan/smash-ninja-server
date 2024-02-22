@@ -4,3 +4,5 @@ SCREEN_SCALE = 2
 FPS = 60
 
 BASE_IMG_PATH = 'assets/images/'
+
+BACKGROUND_SHADOWS_LIST = [(-1, 0), (1, 0), (0, -1), (0, 1)]
