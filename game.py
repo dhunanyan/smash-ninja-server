@@ -3,8 +3,9 @@ import random
 import pygame
 
 from components.tilemap import Tilemap
+from components.player import Player
 
-from config.constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_SCALE, BACKGROUND_SHADOWS_LIST, FPS
+from config.constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_SCALE, BACKGROUND_SHADOWS_LIST, FPS, PLAYER_DIM, RENDER_SCALE
 from config.utils import Animation, load_image, load_images
 
 class Game:
@@ -44,11 +45,21 @@ class Game:
     }
     pygame.display.set_icon(self.assets['icon'])
     
+    player_pos = (50, 50)
+    self.player = Player(self, player_pos, PLAYER_DIM)
+    
     self.screenshake = 0
     self.load_level()
       
   def load_level(self) -> None:
-    # load tilemap
+    spawners = self.tilemap.extract([
+      ('spawners', 0)
+    ])
+    for spawner in spawners:
+      if spawner['variant'] == 0:
+        self.player.pos = spawner['pos']
+        self.player.air_time = 0
+    
     self.scroll = [0, 0]
     self.background_image = pygame.transform.scale(
       self.assets['background'], (
@@ -62,13 +73,20 @@ class Game:
       self.display.fill((0, 0, 0, 0))
       self.display_2.blit(self.background_image, (0, 0))
       self.screenshake = max(0, self.screenshake - 1)
+      
+      self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / RENDER_SCALE - self.scroll[0]) / 30
+      self.scroll[1] += (self.player.rect().centery - self.display.get_height() / RENDER_SCALE - self.scroll[1]) / 30
       render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
-
+      
       display_mask = pygame.mask.from_surface(self.display)
       display_sillhouette = display_mask.to_surface(
         setcolor=(0, 0, 0, 180),
         unsetcolor=(0, 0, 0, 0)
       )
+      
+      self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
+      self.player.render(self.display, offset=render_scroll)
+      
       for offset in BACKGROUND_SHADOWS_LIST:
         self.display_2.blit(display_sillhouette, offset)
 
@@ -80,6 +98,10 @@ class Game:
             self.movement[0] = True
           if event.key == pygame.K_d:
             self.movement[1] = True
+          if event.key == pygame.K_w:
+            self.player.jump()
+          if event.key == pygame.K_s:
+            self.player.velocity[1] = 3
         if event.type == pygame.KEYUP:
           if event.key == pygame.K_a:
             self.movement[0] = False

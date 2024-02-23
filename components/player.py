@@ -98,18 +98,19 @@ class Player(Physics):
       self.game.particles.append(p_double_jump)
   
   def animate_double_jump(self):
-    for _ in range(10):
-      angle = random.random() * math.pi * 2
-      speed = random.random() * 0.5 + 0.5
-      p_velocity = [math.cos(angle) * speed, speed]
-      p_double_jump = Particle(
-        self.game, 
-        'light-sparkle', 
-        self.rect().center, 
-        velocity=p_velocity,
-        frame=random.randint(0, 7)
-      )
-      self.game.particles.append(p_double_jump)
+    pass
+    # for _ in range(10):
+    #   angle = random.random() * math.pi * 2
+    #   speed = random.random() * 0.5 + 0.5
+    #   p_velocity = [math.cos(angle) * speed, speed]
+    #   p_double_jump = Particle(
+    #     self.game, 
+    #     'light-sparkle', 
+    #     self.rect().center, 
+    #     velocity=p_velocity,
+    #     frame=random.randint(0, 7)
+    #   )
+    #   self.game.particles.append(p_double_jump)
 
   def particles_animation(self, animation_type):
     match animation_type:
