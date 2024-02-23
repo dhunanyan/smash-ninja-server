@@ -1,8 +1,8 @@
 import json
 import pygame
 
-from typing import List, Tuple, Dict, Union, Optional, cast
-from game import Game
+from typing import List, Tuple, Dict, Union, Optional, TypeVar, cast
+GameType = TypeVar('GameType', bound='Game')
 
 from config.constants import NEIGHBOR_OFFSET, PHYSICS_TILE_TYPES, AUTOTILE_NEIGHBORS, AUTOTILE_TYPES, AUTOTILE_MAP
 
@@ -12,8 +12,8 @@ TilemapType = Dict[str, TileType]
 IdPairsType = List[Tuple[str, int]]
 
 class Tilemap:
-  def __init__(self, game: Game, tile_size: int = 16) -> None:
-    self.game: Game = game
+  def __init__(self, game: GameType, tile_size: int = 16) -> None:
+    self.game: GameType = game
     self.tile_size: int = tile_size
     self.tilemap: TilemapType = {}
     self.offgrid_tiles: TilesType = []
